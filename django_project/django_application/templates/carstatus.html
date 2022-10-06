@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}  
+<html>
+<head>
+    <body>
+        <h4>Available/Sold Car detail </h4>
+        <form action = "{% url 'django_application:carstatus' %}" method="POST">
+        <table border="1" style="text-align: center;">
+            <tr>
+                <th>Seller Name</th>
+                <th>Seller Mobile</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Condition</th>
+                <th>Price</th>
+                </tr>
+            {% for x in cardata %}
+            <tr>
+                <td>{{x.seller_name}}</td>
+                <td>{{x.seller_mobile}}</td>
+                <td>{{x.make}}</td>
+                <td>{{x.model}}</td>
+                <td>{{x.year}}</td>
+                <td>{{x.condition}}</td>
+                <td>{{x.asking_price}}</td>
+            </tr>
+            {% endfor %} 
+        </table>
+        <table><tr><td>
+        {% if request.user.is_superuser %}
+        <button type="submit" value="buy"><a href="{% url 'django_application:carlist' %}">Add</a></button>
+        {% endif %}
+        </td><td>
+        {% if request.user.is_authenticated %}
+        <button type="submit" value="make available"><a href="{% url 'django_application:carimage' %}">Make available</a></button>
+        </td></tr>
+        {% endif %}            
+       </form>
+    </body>
+</head>    
+</html>
+{% endblock %}
