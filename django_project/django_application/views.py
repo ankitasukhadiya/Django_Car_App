@@ -114,8 +114,6 @@ def cardetail(request,id):
           
 def buycar(request,id):
     cardata = Car.objects.get(id=id)
-  
-    # if cardata.status != 'sold':
     if request.method == 'POST':
             form = BuyForm(request.POST,request.FILES)
             if form.is_valid():
@@ -124,10 +122,11 @@ def buycar(request,id):
                 buyernumber = form.cleaned_data.get('buyer_number')
                 print(buyernumber,"////")   
                 buycarobj = BuyCar(Car=cardata,buyer_name= buyername,buyer_number=buyernumber)
-                buycarobj.save()    
-                return redirect("django_application:success")
+                buycarobj.save()                  
+                return redirect("django_application:success")       
             else:    
-                return render(request,"buycar.html",{'form':form,'cardata':cardata})   
+                return render(request,"buycar.html",{'form':form,'cardata':cardata})  
+               
     cardata.status = 'sold'
     cardata.save()
     form = BuyForm(request.POST)
@@ -145,7 +144,6 @@ def carstatus(request):
         context = {
             'cardata': cardata,
         } 
-    
     return render(request,'carstatus.html',context)
 
 def carimage(request):

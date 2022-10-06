@@ -5,12 +5,7 @@
   </head> 
     <body>
       <table border="1" style="width: 30%;">
-                <!-- {% for y in data1 %}
-                {% if data.id == y.Car_id %} 
-                <img src="/django_application/media/{{y.image}}">
-                {% endif %}
-                {% endfor %} -->
-
+              
                 {% for y in data1 %}
                 {% if data.id == y.Car_id %} 
                 <img src="{{y.image.url}}">
