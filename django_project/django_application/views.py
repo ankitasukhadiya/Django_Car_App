@@ -122,11 +122,14 @@ def buycar(request,id):
                 buyernumber = form.cleaned_data.get('buyer_number')
                 print(buyernumber,"////")   
                 buycarobj = BuyCar(Car=cardata,buyer_name= buyername,buyer_number=buyernumber)
-                buycarobj.save()                  
+                buycarobj.save()
+                send_mail(
+                    
+                )               
                 return redirect("django_application:success")       
             else:    
                 return render(request,"buycar.html",{'form':form,'cardata':cardata})  
-               
+              
     cardata.status = 'sold'
     cardata.save()
     form = BuyForm(request.POST)
