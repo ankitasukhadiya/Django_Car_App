@@ -20,5 +20,6 @@ urlpatterns = [
     path('success/',views.success, name = 'success'),
     path('carstatus/',views.carstatus, name = 'carstatus'),
     path('carimage/',views.carimage, name = 'carimage'),
+    path('schedulemail/', views.schedule_mail, name="schedulemail"),
 
 ]

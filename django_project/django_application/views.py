@@ -4,6 +4,8 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib import messages
+from regex import B
+from django_application.tasks import send_email_task
 from .models import Car,BuyCar,User,CarImage
 from .forms import CarForm,UserForm,BuyForm
 from django.core.paginator import Paginator
@@ -17,6 +19,10 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.core .mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
+import json
+from django_celery_beat.models import CrontabSchedule
+from django_celery_beat.models import PeriodicTask
+
 
 def home(request):
     return render(request,'home.html')
@@ -123,9 +129,11 @@ def buycar(request,id):
                 print(buyernumber,"////")   
                 buycarobj = BuyCar(Car=cardata,buyer_name= buyername,buyer_number=buyernumber)
                 buycarobj.save()
-                send_mail(
-                    
-                )               
+               
+                print(buycarobj.id,"-=-=--=-=-=-=",)
+                print(buycarobj.Car.seller_name,"-=-=--=-=-=-=",)
+                send_email_task.delay(buycarobj.id)
+
                 return redirect("django_application:success")       
             else:    
                 return render(request,"buycar.html",{'form':form,'cardata':cardata})  
@@ -134,6 +142,15 @@ def buycar(request,id):
     cardata.save()
     form = BuyForm(request.POST)
     return render(request,"buycar.html",{'form':form,'cardata':cardata}) 
+
+def schedule_mail(request):
+    schedule, created = CrontabSchedule.objects.get_or_create(hour=0, minute=1)
+    task = PeriodicTask.objects.create(
+        crontab=schedule,
+        name="schedule_mail_task_" + "5",
+        task="send_mail_app.tasks.send_mail_func",
+    )  # , args = json.dumps([[2,3]]))
+    return HttpResponse("Done")
 
 def carstatus(request):   
     context = {}

@@ -15,6 +15,9 @@ import os
 
 
 
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -117,10 +120,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = "django_application.User"
+CELERY_BROKER_URL = "redis://127.0.0.1:6379"
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TASK_SERIALIZER = "json"
+CELERY_TIMEZONE = "Asia/Kolkata"
+
 CELERY_RESULT_BACKEND = "django-db"
-CELERY_BROKER_URL = config('CELERY_BROKER_REDIS_URL', default='redis://localhost:6379')
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
+
 
 
 
@@ -132,8 +139,8 @@ STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+# CELERY_BROKER_URL = "redis://localhost:6379"
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -149,7 +156,6 @@ EMAIL_HOST_PASSWORD = 'jcqwzwdcycjanwug'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL='Celery <ankitagadhiya36@gmail.com>'
 
 
