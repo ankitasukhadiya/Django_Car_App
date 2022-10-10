@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <body>
+      <form
+        action="{% url 'django_application:carlist' %}"
+        method="POST"
+        enctype="multipart/form-data">
+        <fieldset>
+          <legend>Sale Form</legend>
+          {% csrf_token %}
+          <table>
+          {{ form }}
+          </table>
+          <input type="submit" value="Submit" name="save" />
+        </fieldset>
+      </form>
+    </body>
+  </head>
+</html>
+{% endblock %}

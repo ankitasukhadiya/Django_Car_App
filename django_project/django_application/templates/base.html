@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+  <body>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button onclick="history.back()" style="font-size: 15px;">Go Back</button>
+    {% if request.user.is_authenticated %}
+
+      <button><a href="{% url 'django_application:logout'%}" style="font-size: 15px;">Logout </a></button>
+
+    {% else %}
+
+      <button><a href="{% url 'django_application:signup'%}" style="font-size: 15px;">Signup</a></button>
+      <button><a href="{% url 'django_application:login'%}" style="font-size: 15px;">Login </a></button>
+      
+    {% endif %}  
+    {% if request.user.is_authenticated %}
+      {{ request.user }}
+    {% endif %}
+    
+    <br>
+        <div class="col-8">
+          <h1 class="mt-2"> Car Application</h1>
+          <hr class="mt-0 mb-4">
+          {% block content %}    
+          {% endblock %}
+        </div>
+  </body>
+</html>  
+<br>
+
+
+
+
+ 
