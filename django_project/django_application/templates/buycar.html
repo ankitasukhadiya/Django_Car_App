@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <body>
+            <form action="" method="POST" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>BuyCar Form</legend>
+                    {% csrf_token %}
+                    <table>
+                        {% for form in form %}
+                        <tr><td>{{form.label_tag}}</td><td>{{ form }}</td></tr>
+                        {% endfor %}
+                    </table>
+                    <input type="submit" value="Submit" name="save" />
+                </fieldset>
+            </form>
+        </body>
+    </head>
+</html>
+{% endblock %}
