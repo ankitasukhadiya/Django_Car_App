@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- <tilte>Documents</tilte> -->
+    <body>
+        <strong>List of all states</strong>
+        {% for i in response %}
+        {{ i.address }}
+        {% endfor %}
+    </body>    
+</head>    
+
+{% endblock %}

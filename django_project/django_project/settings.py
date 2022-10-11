@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-from decouple import config
+
 from pathlib import Path
 import os
 
@@ -44,9 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_application',
     'djmoney',
-    'django_google_maps',
     'django_celery_beat',
     'django_celery_results',
+    'django_google_maps',
 ]
 
 MIDDLEWARE = [
@@ -125,16 +125,15 @@ CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TASK_SERIALIZER = "json"
 CELERY_TIMEZONE = "Asia/Kolkata"
-
 CELERY_RESULT_BACKEND = "django-db"
-
-
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+
 STATIC_URL = '/static/'
+AUTH_USER_MODEL = 'django_application.User'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -149,7 +148,6 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/login/'
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST_USER = 'ankitagadhiya36@gmail.com'
 EMAIL_HOST_PASSWORD = 'jcqwzwdcycjanwug'
@@ -157,7 +155,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL='Celery <ankitagadhiya36@gmail.com>'
-
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST_USER = ["EMAIL"]

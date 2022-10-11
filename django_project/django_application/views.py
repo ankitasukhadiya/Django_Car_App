@@ -4,7 +4,6 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib import messages
-from regex import B
 from django_application.tasks import send_email_task
 from .models import Car,BuyCar,User,CarImage
 from .forms import CarForm,UserForm,BuyForm
@@ -22,6 +21,7 @@ from django.template.loader import render_to_string
 import json
 from django_celery_beat.models import CrontabSchedule
 from django_celery_beat.models import PeriodicTask
+import requests
 
 
 def home(request):
@@ -99,7 +99,6 @@ def logout(request):
     messages.info(request, "Logged out successfully!")
     return redirect('django_application:base')
 
-
 def buycardetail(request,id):
     data = Car.objects.filter(id=id).first()
     data1 = CarImage.objects.all() 
@@ -119,38 +118,32 @@ def cardetail(request,id):
         return render(request, "cardetail.html", context)
           
 def buycar(request,id):
-    cardata = Car.objects.get(id=id)
+    cardata = Car.objects.filter(id=id).first()
     if request.method == 'POST':
             form = BuyForm(request.POST,request.FILES)
             if form.is_valid():
                 buyername = form.cleaned_data.get('buyer_name')
-                print(buyername,"----")
                 buyernumber = form.cleaned_data.get('buyer_number')
-                print(buyernumber,"////")   
                 buycarobj = BuyCar(Car=cardata,buyer_name= buyername,buyer_number=buyernumber)
                 buycarobj.save()
-               
-                print(buycarobj.id,"-=-=--=-=-=-=",)
-                print(buycarobj.Car.seller_name,"-=-=--=-=-=-=",)
-                send_email_task.delay(buycarobj.id)
-
+                email = request.user.email
+                send_email_task.delay(buycarobj.id,email)   
                 return redirect("django_application:success")       
             else:    
-                return render(request,"buycar.html",{'form':form,'cardata':cardata})  
-              
+                return render(request,"buycar.html",{'form':form,'cardata':cardata})                
     cardata.status = 'sold'
     cardata.save()
     form = BuyForm(request.POST)
     return render(request,"buycar.html",{'form':form,'cardata':cardata}) 
 
-def schedule_mail(request):
-    schedule, created = CrontabSchedule.objects.get_or_create(hour=0, minute=1)
-    task = PeriodicTask.objects.create(
-        crontab=schedule,
-        name="schedule_mail_task_" + "5",
-        task="send_mail_app.tasks.send_mail_func",
-    )  # , args = json.dumps([[2,3]]))
-    return HttpResponse("Done")
+# def schedule_mail(request):
+#     schedule, created = CrontabSchedule.objects.get_or_create(hour=0, minute=1)
+#     task = PeriodicTask.objects.create(
+#         crontab=schedule,
+#         name="schedule_mail_task_" + "5",
+#         task="send_mail_app.tasks.send_mail_func",
+#     )  # , args = json.dumps([[2,3]]))
+#     return HttpResponse("Done")
 
 def carstatus(request):   
     context = {}
@@ -173,6 +166,10 @@ def carimage(request):
         'id':id,
     }
     return render(request,'carimage.html',context)    
+
+def apicall(request):
+    response = requests.get('https://data.covid19india.org/travel_history.json').json()
+    return render(request,"apicall.htm",{'response':response})  
 
 
  
