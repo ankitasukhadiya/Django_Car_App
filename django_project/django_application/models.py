@@ -83,6 +83,11 @@ class CarImage(models.Model):
     Car = models.ForeignKey(Car,on_delete=models.CASCADE,null=True) 
     image = models.FileField(upload_to=get_image_path)
 
+class Apicall(models.Model):
+    country = models.JSONField() 
+    slug = models.JSONField()
+    ISO2 = models.JSONField()   
+
 
 
     

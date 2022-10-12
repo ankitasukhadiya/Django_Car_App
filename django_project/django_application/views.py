@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib import messages
 from django_application.tasks import send_email_task
-from .models import Car,BuyCar,User,CarImage
+from .models import Car,BuyCar,User,CarImage,Apicall
 from .forms import CarForm,UserForm,BuyForm
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -22,6 +22,7 @@ import json
 from django_celery_beat.models import CrontabSchedule
 from django_celery_beat.models import PeriodicTask
 import requests
+import json
 
 
 def home(request):
@@ -168,8 +169,15 @@ def carimage(request):
     return render(request,'carimage.html',context)    
 
 def apicall(request):
-    response = requests.get('https://data.covid19india.org/travel_history.json').json()
-    return render(request,"apicall.htm",{'response':response})  
+    data = Apicall.objects.all()     
+    response = requests.get('https://api.covid19api.com/countries').json()
+    data = response
+    print(data,"-=-=-=")
+    print(type(data),"-=-=-=-=")
+   
+   
+    return render(request,'apicall.html',{'data':data})  
+    
 
 
  
