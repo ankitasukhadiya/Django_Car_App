@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+
+<head>
+    <title>API display</title>
+</head>     
+<body>
+    <strong>List of all countries</strong>
+    {% for Country in data %}
+    {{ Country.Country }}
+    {{ Country.Slug }}
+    {{ Country.ISO2 }}
+    {% endfor %}<br>
+    <input type="button" value="Add country" />
+</body> 
+</html>   
+{% endblock %}

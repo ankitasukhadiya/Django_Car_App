@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<head>
+    <body><h2>List of Cars</h2>
+        <form method="get">
+            <input type="text" placeholder="filter by" name="search" value="">
+            <input type="submit" value="Submit" name="save" />
+            <input type="submit" value="Clear Filter" name="save" /><br><br>
+            <table border="1">
+                <tr>
+                <th>Name</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Condition</th>
+                <th>Price</th></tr>
+                {% for x in data %} 
+                <tr>
+                <td>{{ x.seller_name }}</td>
+                <td>{{ x.make }}</td>
+                <td>{{ x.model }}</td>
+                <td>{{ x.year }}</td>
+                <td>{{ x.condition }}</td>
+                <td>{{ x.asking_price }}</td></tr>
+                {% endfor %}   
+            </table>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if data.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ data.previous_page_number }}">previous</a>
+                    {% endif %}            
+                    <span class="current">
+                        Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                    </span>            
+                    {% if data.has_next %}
+                        <a href="?page={{ data.next_page_number }}">next</a>
+                        <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                    
+                </span>
+            </div>
+        </form>   
+    </body>
+</head>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <body>
+            <form action="{% url 'django_application:login'%}" method="POST" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>Login Form</legend>
+                    {% csrf_token %}
+                    <table>  
+                        {{ form.as_table }}
+                    </table>
+                    <input type="submit" value="Login" />
+                    {% if messages %}
+                    {% for message in messages %}
+                    <h2>{{message}}</h2>
+                    {% endfor %}
+                    {% endif %}
+                </fieldset>
+            </form>
+            <!-- <form action="" method="post">
+                {% csrf_token %}
+            <table>
+                <tbody>
+                    {{form.as_table}}
+                </tbody>
+            </table>
+            <input type="submit" value="Login">
+            {% if messages %}
+            {% for message in messages %}
+             <h2>{{message}}</h2>
+            {% endfor %}
+            {% endif %}
+        </form> -->
+        </body>
+    </head>
+</html>
+{% endblock %}
