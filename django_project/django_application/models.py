@@ -1,4 +1,5 @@
 from distutils.command.upload import upload
+from enum import unique
 from pyexpat import model
 from tkinter import CASCADE
 from typing_extensions import Self
@@ -84,9 +85,12 @@ class CarImage(models.Model):
     image = models.FileField(upload_to=get_image_path)
 
 class Apicall(models.Model):
-    country = models.JSONField() 
-    slug = models.JSONField()
-    ISO2 = models.JSONField()   
+    country = models.CharField(max_length=30) 
+    slug = models.CharField(max_length=30)
+    ISO2 = models.CharField(max_length=10)   
+
+    def __str__(self):    
+        return self.country
 
 
 

@@ -7,12 +7,15 @@
 </head>     
 <body>
     <strong>List of all countries</strong>
-    {% for Country in data %}
+    {% for Country in response %}
     {{ Country.Country }}
     {{ Country.Slug }}
     {{ Country.ISO2 }}
     {% endfor %}<br>
-    <input type="button" value="Add country" />
+
 </body> 
 </html>   
 {% endblock %}
+    <!-- <form method="POST">
+        <input type="button" value="Add country" name="save" />
+    </form> -->

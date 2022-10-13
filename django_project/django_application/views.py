@@ -5,7 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib import messages
 from django_application.tasks import send_email_task
-from .models import Car,BuyCar,User,CarImage,Apicall
+from .models import Car,BuyCar,User,CarImage
+from .models import Apicall
 from .forms import CarForm,UserForm,BuyForm
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -169,14 +170,19 @@ def carimage(request):
     return render(request,'carimage.html',context)    
 
 def apicall(request):
-    data = Apicall.objects.all()     
+       
     response = requests.get('https://api.covid19api.com/countries').json()
-    data = response
-    print(data,"-=-=-=")
-    print(type(data),"-=-=-=-=")
-   
-   
-    return render(request,'apicall.html',{'data':data})  
+    print(type(response),"-=-=-=")    
+    for i in response:
+        country = i['Country']
+        print(country,"-=-=-=-")
+        slug = i['Slug']
+        print(slug,"//////")
+        iso = i['ISO2']
+        print(iso,"********")
+        data1 = Apicall.objects.create(country=country,slug=slug,ISO2=iso)
+        data1.save()      
+    return render(request,'apicall.html',{'response':response})  
     
 
 

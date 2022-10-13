@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.conf import settings
-from .models import Car,User,BuyCar,CarImage
+from .models import Car,User,BuyCar,CarImage,Apicall
 
 
 admin.site.register(CarImage)
 admin.site.register(Car)
 admin.site.register(User)
 admin.site.register(BuyCar)
+admin.site.register(Apicall)
 
